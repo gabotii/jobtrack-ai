@@ -19,7 +19,7 @@ appsettings.*.local.json
 
 # Uploaded files (local storage)
 backend/src/JobTrack.Api/App_Data/
-storage/
+/storage/
 
 # Playwright
 playwright-report/
