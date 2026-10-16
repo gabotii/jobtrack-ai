@@ -1,0 +1,98 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/plus-jakarta-sans';
+
+@theme {
+  --font-sans: 'Plus Jakarta Sans Variable', ui-sans-serif, system-ui, sans-serif;
+
+  --color-background: #f6f7f6;
+  --color-surface: #ffffff;
+  --color-foreground: #16201e;
+  --color-muted: #eef1ef;
+  --color-muted-foreground: #56625f;
+  --color-border: #dfe4e2;
+  --color-ring: #0f766e;
+
+  --color-primary: #0f766e;
+  --color-primary-hover: #115e59;
+  --color-primary-soft: #e3f3f0;
+  --color-primary-foreground: #ffffff;
+
+  --color-accent: #b45309;
+  --color-accent-soft: #fdf3e2;
+
+  --color-danger: #b42318;
+  --color-danger-hover: #912018;
+  --color-danger-soft: #fdecea;
+
+  --color-sidebar: #0e1f1c;
+  --color-sidebar-foreground: #c9d8d4;
+  --color-sidebar-active: #1c3a35;
+
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+}
+
+@layer base {
+  html {
+    color-scheme: light;
+  }
+
+  body {
+    @apply bg-background font-sans text-foreground antialiased;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-ring;
+  }
+
+  * {
+    @apply border-border;
+  }
+}
+
+/* FullCalendar adjustments so the calendar matches the app's tokens. */
+.fc {
+  --fc-border-color: var(--color-border);
+  --fc-today-bg-color: var(--color-primary-soft);
+  --fc-button-bg-color: var(--color-surface);
+  --fc-button-border-color: var(--color-border);
+  --fc-button-text-color: var(--color-foreground);
+  --fc-button-hover-bg-color: var(--color-muted);
+  --fc-button-hover-border-color: var(--color-border);
+  --fc-button-active-bg-color: var(--color-primary);
+  --fc-button-active-border-color: var(--color-primary);
+  --fc-event-border-color: transparent;
+  --fc-page-bg-color: var(--color-surface);
+  font-size: 0.875rem;
+}
+
+.fc .fc-button {
+  font-weight: 600;
+  text-transform: none;
+  box-shadow: none !important;
+}
+
+.fc .fc-button-primary:not(:disabled).fc-button-active {
+  color: var(--color-primary-foreground);
+}
+
+.fc .fc-toolbar-title {
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+/* "octubre de 2026" -> "Octubre de 2026" (capitalize would also uppercase "de"). */
+.fc .fc-toolbar-title::first-letter {
+  text-transform: uppercase;
+}
+
+.fc .fc-event {
+  cursor: pointer;
+}
+
+@media (max-width: 640px) {
+  .fc .fc-toolbar {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}

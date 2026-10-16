@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/JobTrack.Api/JobTrack.Api.csproj" />
+    <Project Path="src/JobTrack.Application/JobTrack.Application.csproj" />
+    <Project Path="src/JobTrack.Domain/JobTrack.Domain.csproj" />
+    <Project Path="src/JobTrack.Infrastructure/JobTrack.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/JobTrack.Tests/JobTrack.Tests.csproj" />
+  </Folder>
+</Solution>

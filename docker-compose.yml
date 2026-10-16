@@ -1,0 +1,56 @@
+# Full stack: PostgreSQL + API + web (nginx). Usage:
+#   cp .env.example .env   # then set real secrets
+#   docker compose up --build
+# The app is served at http://localhost:8080 (API under /api, Swagger disabled by default).
+name: jobtrack
+
+services:
+  db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: jobtrack
+      POSTGRES_USER: jobtrack
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U jobtrack -d jobtrack"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build: ./backend
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT:-Production}
+      ConnectionStrings__Default: Host=db;Port=5432;Database=jobtrack;Username=jobtrack;Password=${POSTGRES_PASSWORD};GSS Encryption Mode=Disable
+      Jwt__SigningKey: ${JWT_SIGNING_KEY:?Set JWT_SIGNING_KEY in .env (32+ random characters)}
+      Database__MigrateOnStartup: "true"
+      # Only nginx can reach the API (it is not published), so forwarded headers are trusted.
+      ForwardedHeaders__Enabled: "true"
+      AuthCookie__Secure: ${AUTH_COOKIE_SECURE:-true}
+      Swagger__Enabled: ${SWAGGER_ENABLED:-false}
+      Ai__Anthropic__ApiKey: ${ANTHROPIC_API_KEY:-}
+      Ai__Anthropic__Model: ${ANTHROPIC_MODEL:-claude-opus-5-5}
+      Demo__Password: ${DEMO_PASSWORD:-}
+    volumes:
+      - uploads:/app/App_Data
+    expose:
+      - "8080"
+
+  web:
+    build: ./frontend
+    restart: unless-stopped
+    depends_on:
+      - api
+    ports:
+      - "${WEB_PORT:-8080}:80"
+
+volumes:
+  pgdata:
+  uploads:
