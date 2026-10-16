@@ -200,3 +200,5 @@ docker-compose.yml             stack completo
 - **Escalado:** los CV se guardan en disco/volumen; con varias réplicas habría que usar almacenamiento de objetos.
 - **UI:** solo español y tema claro; el bundle inicial (~165 KB gzip) admite optimización.
 - **CI:** el workflow está escrito y sus pasos se han ejecutado localmente, pero no se ha lanzado en GitHub.
+
+<img width="1903" height="904" alt="image" src="https://github.com/user-attachments/assets/a519bfed-939d-4a93-b07c-f9f5a39f14e8" />
